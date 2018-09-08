@@ -21,7 +21,7 @@ def call(body)
         def g = new git()
 	def m = new mavenBuild()
         def D = new DockerBuild()
-        def Deploy = new DockerAppDeploy()
+        def dKr = new DockerAppDeploy()
         currentBuild.result = "SUCCESS"
         NEXT_STAGE = "none"
         branch_name = new ChoiceParameterDefinition('BRANCH', ['development','master'] as String[],'')
@@ -83,14 +83,14 @@ def call(body)
                 while (NEXT_STAGE != "Remove_Container") {
                 continue
                 }
-		Deploy.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
-                NEXT_STAGE='container_Deployment'
+		dKr.removeContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
+                NEXT_STAGE='deploy_container'
                 },
                 "\u278B Container Deployement" : {
-                while (NEXT_STAGE != "container_Deployment") {
+                while (NEXT_STAGE != "deploy_container") {
                 continue
                 }
-		Deploy.ReDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
+		dKr.deployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
                 },
                 failFast: true
                 )

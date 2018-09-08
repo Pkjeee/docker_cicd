@@ -11,22 +11,22 @@ package docker.devops.deploy
 ******	Function to stop & undeploye earlir  Containers 	     *******
 ********************************************************************** *****/
 
-def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTAINER_NAME)
+def removeContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTAINER_NAME)
 {
    try {
       wrap([$class: 'AnsiColorBuildWrapper']) {
-        println "\u001B[32mINFO => UnDeploy Docker Conatiner is in progress at ${DEPLOYMENT_SERVERS}, please wait..."
+        println "\u001B[32mINFO => Docker Removal Process is running at ${DEPLOYMENT_SERVERS}, please wait..."
 	for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
         def DockerRm = "docker rm -f ${CONTAINER_NAME}"
  	     sshagent(['SSH-KEY-102']) {
-		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm} | logout"
+		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm}"
 	 }
        }
      }
    }
    catch (Exception caughtException) {
       wrap([$class: 'AnsiColorBuildWrapper']) {
-        println "\u001B[41mERROR => failed to UnDeployment at ${DEPLOYMENT_SERVERS}, exiting..."
+        println "\u001B[41mERROR => failed to Docker Remove at ${DEPLOYMENT_SERVERS}, exiting..."
         currentBuild.result = 'FAILED'
         throw caughtException
       }
@@ -34,10 +34,10 @@ def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTA
 }
 
 /****************************************************************************
-******  	Function to Deploye NEW Containers & Start            *******
+******  	Function to Deploy NEW Containers & Start            *******
 ****************************************************************************/
 
-def ReDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG, String CONTAINER_NAME)
+def deployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG, String CONTAINER_NAME)
 {
    try {
       wrap([$class: 'AnsiColorBuildWrapper']) {
