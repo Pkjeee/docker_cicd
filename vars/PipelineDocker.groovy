@@ -83,7 +83,7 @@ def call(body)
                 while (NEXT_STAGE != "UnDeploy_Container") {
                 continue
                 }
-		Deploy.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
+		Deploy.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
                 NEXT_STAGE='container_Deployment'
                 },
                 "\u278B Container Deployement" : {
