@@ -64,13 +64,13 @@ def call(body)
                 }
 //                def D = new DockerBuild()
                 D.buildDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
-                NEXT_STAGE='pushDcokerImage'
+                NEXT_STAGE='pushDcokerHub'
                 },
-		"\u278B Docker Push2Hub" : {
-             	while (NEXT_STAGE != 'pushDcokerImage') {
+		"\u278B Docker Push Hub" : {
+             	while (NEXT_STAGE != 'pushDcokerHub') {
                	continue
              	}
-		D.pushDockerImages()
+		D.pushDockerImages("${config.DOCKER_USER}")
 		},
 		failFast: true
 		)
