@@ -6,6 +6,7 @@
 ************************************************************************************/
 import docker.devops.scm.*
 import docker.devops.build.*
+import docker.devops.sonar.*
 
 def call(body) 
 {
@@ -35,18 +36,25 @@ def call(body)
 	       }
 
         stage ('\u2780 Code Checkout') {
-           def git = new git()
-           g.Checkout("${config.GIT_URL}","${BRANCH}","${config.GIT_CREDENTIALS}")
-           NEXT_STAGE="maven_build"
-           }
+           	g.Checkout("${config.GIT_URL}","${BRANCH}","${config.GIT_CREDENTIALS}")
+           	NEXT_STAGE="maven_build"
+           	}
 	stage ('\u2781 Maven Build') {
-	         while (NEXT_STAGE != "maven_build") {
-                 continue
-                 }
-	         m.MavenBuild("${config.MAVEN_HOME}","${config.MAVEN_GOAL}")
-	   }
+	        while (NEXT_STAGE != "maven_build") {
+                continue
+                }
+	        m.MavenBuild("${config.MAVEN_HOME}","${config.MAVEN_GOAL}")
+		NEXT_STAGE="code_analysis"
+	   	}
+	stage ('\u2782 Sonar Analysis') {
+		while (NEXT_STAGE != "code_analysis") {
+                continue
+		}
+	        def s = new MavenSonarAnalysis()
+		s.SonarAnalysis("${config.SONAR_PROPERTY}")
+		}
 	}
-       catch (Exception caughtError) {
+       	catch (Exception caughtError) {
           wrap([$class: 'AnsiColorBuildWrapper']) {
              print "\u001B[41mERROR => fcaa pipeline failed, check detailed logs..."
              currentBuild.result = "FAILURE"
