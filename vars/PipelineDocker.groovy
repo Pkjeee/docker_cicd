@@ -19,6 +19,7 @@ def call(body)
      try {
         def g = new git()
 	def m = new mavenBuild()
+        def D = new DockerBuild()
         currentBuild.result = "SUCCESS"
         NEXT_STAGE = "none"
         branch_name = new ChoiceParameterDefinition('BRANCH', ['development','master'] as String[],'')
@@ -57,19 +58,19 @@ def call(body)
 		}
 	stage ('\u2783 Docker Tasks') {
           parallel (
-		"\u2780 Docker Build" : {
+		"\u278A Docker Build" : {
                 while (NEXT_STAGE != "dockerImageBuild") {
                 continue
                 }
-                def D = new DockerBuild()
+//                def D = new DockerBuild()
                 D.buildDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
                 NEXT_STAGE='pushDcokerImage'
                 },
-		"\u2461 Docker Push2Hub" : {
+		"\u278B Docker Push2Hub" : {
              	while (NEXT_STAGE != 'pushDcokerImage') {
                	continue
              	}
-		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}"."${DOCKER_PASSWORD}")
+		D.pushDockerImages("${config.DOCKER_USER}","${DOCKER_PASSWORD}")
 		},
 		failFast: true
 		)
