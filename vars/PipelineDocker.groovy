@@ -72,7 +72,7 @@ def call(body)
                	continue
              	}
 		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
-		NEXT_STAGE='UnDeployContainer'
+		NEXT_STAGE='ReDeployContainer'
 		},
 		failFast: true
 		)
@@ -80,18 +80,19 @@ def call(body)
 	stage ('\u2784 Deployment Tasks') {
           parallel (
                 "\u278A UnDeploy Container" : {
-                while (NEXT_STAGE != "UnDeployContainer") {
+                while (NEXT_STAGE != "ReDeployContainer") {
                 continue
                 }
-		Dkr.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
-                NEXT_STAGE='containerDeployment'
+//		Dkr.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
+		Dkr.ReBuildContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
+//                NEXT_STAGE='containerDeployment'
                 },
-                "\u278B Container Deployement" : {
-                while (NEXT_STAGE != "containerDeployment") {
-                continue
-                }
-		Dkr.DeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
-                },
+//                "\u278B Container Deployement" : {
+//                while (NEXT_STAGE != "containerDeployment") {
+//                continue
+//                }
+//		Dkr.DeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
+//                },
                 failFast: true
                 )
               }
