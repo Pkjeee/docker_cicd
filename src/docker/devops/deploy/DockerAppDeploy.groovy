@@ -18,8 +18,10 @@ def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTA
         println "\u001B[32mINFO => UnDeploy Docker Conatiner is in progress at ${DEPLOYMENT_SERVERS}, please wait..."
 	for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
         def DockerRm = "docker rm -f ${CONTAINER_NAME}"
+	def Rmi	= 'docker images -q'
+	def KILL = "${Rmi}"
  	     sshagent(['SSH-KEY-102']) {
-		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm} | exit"
+		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm} ${KILL} | exit"
 	 }
        }
      }
