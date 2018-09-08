@@ -84,15 +84,15 @@ def call(body)
                 while (NEXT_STAGE != "UnDeploy_Container") {
                 continue
                 }
-		Rm.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
-                NEXT_STAGE='container_Deployment'
+		Rm.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
+//                NEXT_STAGE='container_Deployment'
                 },
-                "\u278B Container Deployement" : {
-                while (NEXT_STAGE != "container_Deployment") {
-                continue
-                }
-		Deploy.ReDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
-                },
+//                "\u278B Container Deployement" : {
+//                while (NEXT_STAGE != "container_Deployment") {
+//                continue
+//                }
+//		Deploy.ReDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
+//                },
                 failFast: true
                 )
               }
