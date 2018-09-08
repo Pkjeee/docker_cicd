@@ -52,7 +52,15 @@ def call(body)
 		}
 	        def s = new MavenSonarAnalysis()
 		s.SonarAnalysis("${config.SONAR_PROPERTY}")
+		NEXT_STAGE="dockerImageBuild"
 		}
+	stage ('\u2783 DockerBuild Images') {
+                while (NEXT_STAGE != "dockerImageBuild") {
+                continue
+                }
+                def D = new DockerBuild()
+                D.buildDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
+                }
 	}
        	catch (Exception caughtError) {
           wrap([$class: 'AnsiColorBuildWrapper']) {
