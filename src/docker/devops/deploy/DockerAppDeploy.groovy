@@ -43,7 +43,7 @@ def DeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String LINUX_C
         println "\u001B[32mINFO => Docker WebApp Deployment is in progress at ${DEPLOYMENT_SERVERS}, please wait..."
         for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
         sshagent(["${LINUX_CREDENTIALS}"]) {
-        sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} && docker run -p 8080:8080 -d --name ${CONTAINER_NAME} ${DOCKER_USER}/${{DOCKER_APP_NAME}:${DOCKER_TAG}"
+        sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} && docker run -p 8080:8080 -d --name ${CONTAINER_NAME} ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG}"
          }
        }
      }
