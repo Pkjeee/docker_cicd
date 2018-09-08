@@ -86,7 +86,10 @@ def call(body)
 		Rm.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
                 NEXT_STAGE='container_Deployment'
                 },
-                "\u278B Container Deployement" : {
+		 failFast: true
+                )
+	      }
+	stage ('\u2785 Container Deployement') {
 		def Deploy = 'docker run -p 8080:8080 -d --name My-Tomcat-App pramodvishwakarma/my-app:1.0.0'
 		for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
                 while (NEXT_STAGE != "container_Deployment") {
@@ -95,8 +98,6 @@ def call(body)
 		sshagent(['SSH-KEY-102']) {
 		sh "ssh -o StrictHostKeyChecking=no ${config.LINUX_USER}@${LINUX_SERVER} ${Deploy}"
                 }
-                failFast: true
-                )
 	      }
 	    }
           }
