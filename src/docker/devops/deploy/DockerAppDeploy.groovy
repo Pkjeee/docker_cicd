@@ -10,9 +10,8 @@ package docker.devops.deploy
 /****************************************************************************
 ******	Function to stop & undeploye earlir  Containers 	     *******
 ********************************************************************** *****/
-//def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTAINER_NAME) 
 
-def ReBuildContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG, String CONTAINER_NAME)
+def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTAINER_NAME) 
 
 {
    try {
@@ -40,7 +39,7 @@ def ReBuildContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER
 ******  	Function to Deploye NEW Containers & Start            *******
 ****************************************************************************/
 
-def DeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG, String CONTAINER_NAME)
+def ReDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG, String CONTAINER_NAME)
 
 {
    try {
@@ -62,3 +61,4 @@ def DeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_
       }
    }
 }
+
