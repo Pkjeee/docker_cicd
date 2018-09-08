@@ -46,7 +46,4 @@ def pushDockerImages(String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_T
       }
    }
 }
-/**************************************************************
-
-***************************************************************/
 

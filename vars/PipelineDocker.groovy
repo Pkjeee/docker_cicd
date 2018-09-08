@@ -20,6 +20,7 @@ def call(body)
         def g = new git()
 	def m = new mavenBuild()
         def D = new DockerBuild()
+	def Dkr = new DockerAppDeploy()
         currentBuild.result = "SUCCESS"
         NEXT_STAGE = "none"
         branch_name = new ChoiceParameterDefinition('BRANCH', ['development','master'] as String[],'')
@@ -71,10 +72,29 @@ def call(body)
                	continue
              	}
 		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
+		NEXT_STAGE='UnDeployContainer'
 		},
 		failFast: true
 		)
 	      }
+	stage ('\u2784 Deployment Tasks') {
+          parallel (
+                "\u278A UnDeploy Container" : {
+                while (NEXT_STAGE != "UnDeployContainer") {
+                continue
+                }
+                Dkr.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.LINUX_CREDENTIALS}","${config.CONTAINER_NAME}")
+                NEXT_STAGE='DeployContainer'
+                },
+                "\u278B Container Deployment" : {
+                while (NEXT_STAGE != 'DeployContainer') {
+                continue
+                }
+                Dkr.DeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.LINUX_CREDENTIALS}","${config.DOCKER_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}")
+                },
+                failFast: true
+                )
+              }
 	}
        	catch (Exception caughtError) {
           wrap([$class: 'AnsiColorBuildWrapper']) {
