@@ -79,7 +79,7 @@ def call(body)
 	      }
 	stage ('\u2784 Deployment Tasks') {
           parallel (
-                "\u278A UnDeploy Container" : {
+                "\u278A ReDeploy Container" : {
                 while (NEXT_STAGE != "ReDeployContainer") {
                 continue
                 }
