@@ -17,7 +17,7 @@ def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTA
       wrap([$class: 'AnsiColorBuildWrapper']) {
         println "\u001B[32mINFO => UnDeploy Docker Conatiner is in progress at ${DEPLOYMENT_SERVERS}, please wait..."
 	for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
-            sshagent(['${LINUX_CREDENTIALS}']) {
+            sshagent(["${LINUX_CREDENTIALS}"]) {
             sh "ssh -t -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} && docker rm -f ${CONTAINER_NAME}"            
          }
        }
