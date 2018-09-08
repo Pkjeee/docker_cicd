@@ -34,7 +34,7 @@ def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTA
 }
 
 /****************************************************************************
-******  Function to Deploye NEW Containers & Start                  *******
+******  	Function to Deploye NEW Containers & Start            *******
 ****************************************************************************/
 
 def DeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG, String CONTAINER_NAME)
@@ -45,7 +45,7 @@ def DeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_
         for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
         def DockerRun = "docker run -p 8080:8080 -d --name ${CONTAINER_NAME} ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG}"
 	     sshagent(['SSH-KEY-102']) {
-		ssh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRun}"
+		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRun}"
 	 }
        }
      }
