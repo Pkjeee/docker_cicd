@@ -91,7 +91,7 @@ def call(body)
                 while (NEXT_STAGE != 'DeployContainer') {
                 continue
                 }
-                Dkr.DeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.DOCKER_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}")
+                Dkr.DeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
                 },
                 failFast: true
                 )
