@@ -28,7 +28,7 @@ def buildDockerImages(String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_
 /************************************************************
 ***** Function to Push Docker Images to DockerHub       *****
 ************************************************************/
-def pushDockerImages(String DOCKER_USER, String DOCKER_PASSWORD)
+def pushDockerImages(String DOCKER_USER, String DOCKER_PASSWORD, String DOCKER_USER, String DOCKER_APP_NAME)
 {
    try {
       wrap([$class: 'AnsiColorBuildWrapper']) {

@@ -70,7 +70,7 @@ def call(body)
              	while (NEXT_STAGE != 'pushDcokerImage') {
                	continue
              	}
-		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_PASSWORD}")
+		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_PASSWORD}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
 		},
 		failFast: true
 		)
@@ -78,7 +78,7 @@ def call(body)
 	}
        	catch (Exception caughtError) {
           wrap([$class: 'AnsiColorBuildWrapper']) {
-             print "\u001B[41mERROR => fcaa pipeline failed, check detailed logs..."
+             print "\u001B[41mERROR => Docker pipeline failed, check detailed logs..."
              currentBuild.result = "FAILURE"
              throw caughtError
         }
