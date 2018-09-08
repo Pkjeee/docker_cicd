@@ -40,7 +40,7 @@ def call(body)
            NEXT_STAGE="maven_build"
            }
 	stage ('\u2781 Maven Build') {
-	         while (NEXT_STAGE != "clean_package") {
+	         while (NEXT_STAGE != "maven_build") {
                  continue
                  }
 	         m.MavenBuild("${config.MAVEN_HOME}","${config.MAVEN_GOAL}")
