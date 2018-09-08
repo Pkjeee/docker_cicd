@@ -21,6 +21,8 @@ def call(body)
         def g = new git()
 	def m = new mavenBuild()
         def D = new DockerBuild()
+        def Rm = new RmDockerApp()
+        def Deploy = new DockerAppDeploy()
         currentBuild.result = "SUCCESS"
         NEXT_STAGE = "none"
         branch_name = new ChoiceParameterDefinition('BRANCH', ['development','master'] as String[],'')
@@ -79,33 +81,28 @@ def call(body)
 	stage ('\u2784 Deployment Tasks') {
           parallel (
                 "\u278A UnDeploy Container" : {
-	        def Rm = new DockerAppDeploy()
                 while (NEXT_STAGE != "UnDeploy_Container") {
                 continue
                 }
 		Rm.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
                 NEXT_STAGE='container_Deployment'
                 },
-		 failFast: true
+                "\u278B Container Deployement" : {
+                while (NEXT_STAGE != "container_Deployment") {
+                continue
+                }
+		Deploy.ReDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
+                },
+                failFast: true
                 )
-	      }
-        catch (Exception caughtError) {
+              }
+	}
+       	catch (Exception caughtError) {
           wrap([$class: 'AnsiColorBuildWrapper']) {
              print "\u001B[41mERROR => Docker pipeline failed, check detailed logs..."
              currentBuild.result = "FAILURE"
              throw caughtError
         }
      }
-  }
+  } 
 }
-	stage ('\u2785 Container Deployement') {
-		def Deploy = 'docker run -p 8080:8080 -d --name My-Tomcat-App pramodvishwakarma/my-app:1.0.0'
-		for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
-                while (NEXT_STAGE != "container_Deployment") {
-                continue
-                }
-		sshagent(['SSH-KEY-102']) {
-		sh "ssh -o StrictHostKeyChecking=no ${config.LINUX_USER}@${LINUX_SERVER} ${Deploy}"
-                }
-	      }
-	    }
