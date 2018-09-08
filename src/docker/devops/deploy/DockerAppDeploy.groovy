@@ -17,8 +17,8 @@ def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String LINUX
       wrap([$class: 'AnsiColorBuildWrapper']) {
         println "\u001B[32mINFO => UnDeploy Docker Conatiner is in progress at ${DEPLOYMENT_SERVERS}, please wait..."
 	for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
-            sshagent(["${LINUX_CREDENTIALS}"]) {
-            sh "ssh ${LINUX_USER}@${LINUX_SERVER} && docker rm -f ${CONTAINER_NAME}"            
+            sshagent(['SSH-KEY-102']) {
+            sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} && docker rm -f ${CONTAINER_NAME}"            
          }
        }
      }
@@ -42,8 +42,8 @@ def DeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String LINUX_C
       wrap([$class: 'AnsiColorBuildWrapper']) {
         println "\u001B[32mINFO => Docker WebApp Deployment is in progress at ${DEPLOYMENT_SERVERS}, please wait..."
         for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
-        sshagent(["${LINUX_CREDENTIALS}"]) {
-        sh "ssh ${LINUX_USER}@${LINUX_SERVER} && docker run -p 8080:8080 -d --name ${CONTAINER_NAME} ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG}"
+        sshagent(['SSH-KEY-102']) {
+        sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} && docker run -p 8080:8080 -d --name ${CONTAINER_NAME} ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG}"
          }
        }
      }
