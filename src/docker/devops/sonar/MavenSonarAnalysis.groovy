@@ -19,7 +19,7 @@ def SonarAnalysis(String SONAR_PROPERTY)
             wrap([$class: 'AnsiColorBuildWrapper']) {
               println "\u001B[32m[INFO] running sonar analysis with file ${SONAR_PROPERTY}, please wait..."
               withSonarQubeEnv ('SONARQUBE') {
-                 sh "sonar-scanner -Dproject.settings=${SONAR_PROPERTY}"
+                 sh "/app/sonarscanner3/bin/sonar-scanner -Dproject.settings=${SONAR_PROPERTY}"
               }
 		currentBuild.result = 'SUCCESS'
             }
