@@ -11,20 +11,15 @@ package docker.devops.deploy
 ******	Function to stop & undeploye earlir  Containers 	     *******
 ********************************************************************** *****/
 
-def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTAINER_NAME, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG)
+def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTAINER_NAME)
 {
    try {
       wrap([$class: 'AnsiColorBuildWrapper']) {
         println "\u001B[32mINFO => UnDeploy Docker Conatiner is in progress at ${DEPLOYMENT_SERVERS}, please wait..."
 	for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
         def DockerRm = "docker rm -f ${CONTAINER_NAME}"
-	def Rmi	= 'docker images -q'
-	def KILL = "${Rmi}"
-        def DockerRun = "docker run -p 8080:8080 -d --name ${CONTAINER_NAME} ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG}"
  	     sshagent(['SSH-KEY-102']) {
-		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm}"
-		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER}  ${KILL}"
-                sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRun}"
+		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm} | logout"
 	 }
        }
      }

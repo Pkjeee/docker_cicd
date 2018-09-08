@@ -21,7 +21,6 @@ def call(body)
         def g = new git()
 	def m = new mavenBuild()
         def D = new DockerBuild()
-        def Rm = new RmDockerApp()
         def Deploy = new DockerAppDeploy()
         currentBuild.result = "SUCCESS"
         NEXT_STAGE = "none"
@@ -73,26 +72,26 @@ def call(body)
                	continue
              	}
 		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
-		NEXT_STAGE='UnDeploy_Container'
+		NEXT_STAGE='Remove_Container'
 		},
 		failFast: true
 		)
 	      }
 	stage ('\u2784 Deployment Tasks') {
           parallel (
-                "\u278A UnDeploy Container" : {
-                while (NEXT_STAGE != "UnDeploy_Container") {
+                "\u278A Remove Container" : {
+                while (NEXT_STAGE != "Remove_Container") {
                 continue
                 }
-		Rm.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
-//                NEXT_STAGE='container_Deployment'
+		Deploy.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
+                NEXT_STAGE='container_Deployment'
                 },
-//                "\u278B Container Deployement" : {
-//                while (NEXT_STAGE != "container_Deployment") {
-//                continue
-//                }
-//		Deploy.ReDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
-//                },
+                "\u278B Container Deployement" : {
+                while (NEXT_STAGE != "container_Deployment") {
+                continue
+                }
+		Deploy.ReDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
+                },
                 failFast: true
                 )
               }
