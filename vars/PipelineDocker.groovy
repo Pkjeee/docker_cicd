@@ -70,7 +70,7 @@ def call(body)
              	while (NEXT_STAGE != 'pushDcokerImage') {
                	continue
              	}
-		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_PASSWORD}")
+		D.pushDockerImages()
 		},
 		failFast: true
 		)
