@@ -94,7 +94,7 @@ def call(body)
                 }
 		sshagent(['SSH-KEY-102']) {
 		sh "ssh -o StrictHostKeyChecking=no ${config.LINUX_USER}@${LINUX_SERVER} ${Deploy}"
-                },
+                }
                 failFast: true
                 )
 	      }
