@@ -35,6 +35,7 @@ def pushDockerImages(String DOCKER_USER, String DOCKER_PASSWORD, String DOCKER_U
         println "\u001B[32mINFO => Pushing Images ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG} to DockerHub, please wait..."
 	   withCredentials([string(credentialsId: 'Docker-Pass', variable: 'DockerHubPass')]) {
            sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}"
+	   sh "docker push ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG}"
          }
       }
    }
@@ -49,3 +50,4 @@ def pushDockerImages(String DOCKER_USER, String DOCKER_PASSWORD, String DOCKER_U
 /**************************************************************
 
 ***************************************************************/
+
