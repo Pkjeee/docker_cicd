@@ -89,6 +89,15 @@ def call(body)
 		 failFast: true
                 )
 	      }
+        catch (Exception caughtError) {
+          wrap([$class: 'AnsiColorBuildWrapper']) {
+             print "\u001B[41mERROR => Docker pipeline failed, check detailed logs..."
+             currentBuild.result = "FAILURE"
+             throw caughtError
+        }
+     }
+  }
+}
 	stage ('\u2785 Container Deployement') {
 		def Deploy = 'docker run -p 8080:8080 -d --name My-Tomcat-App pramodvishwakarma/my-app:1.0.0'
 		for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
@@ -100,14 +109,3 @@ def call(body)
                 }
 	      }
 	    }
-          }
-	}
-       	catch (Exception caughtError) {
-          wrap([$class: 'AnsiColorBuildWrapper']) {
-             print "\u001B[41mERROR => Docker pipeline failed, check detailed logs..."
-             currentBuild.result = "FAILURE"
-             throw caughtError
-        }
-     }
-  } 
-}
