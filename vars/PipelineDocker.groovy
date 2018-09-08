@@ -7,6 +7,7 @@
 import docker.devops.scm.*
 import docker.devops.build.*
 import docker.devops.sonar.*
+import docker.devops.packages.*
 
 def call(body) 
 {
