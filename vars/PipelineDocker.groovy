@@ -64,12 +64,11 @@ def call(body)
                 while (NEXT_STAGE != "dockerImageBuild") {
                 continue
                 }
-//                def D = new DockerBuild()
                 D.buildDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
                 NEXT_STAGE='pushDcokerHub'
                 },
 		"\u278B Docker Push Hub" : {
-             	while (NEXT_STAGE != 'pushDcokerHub') {
+             	while (NEXT_STAGE != "pushDcokerHub") {
                	continue
              	}
 		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
@@ -88,10 +87,11 @@ def call(body)
                 NEXT_STAGE='DeployContainer'
                 },
                 "\u278B Container Deployment" : {
-                while (NEXT_STAGE != 'DeployContainer') {
+                while (NEXT_STAGE != "DeployContainer") {
                 continue
                 }
                 Dkr.DeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
+		NEXT_STAGE='none'
                 },
                 failFast: true
                 )
