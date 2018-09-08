@@ -70,7 +70,7 @@ def call(body)
              	while (NEXT_STAGE != 'pushDcokerHub') {
                	continue
              	}
-		D.pushDockerImages("${config.DOCKER_USER}")
+		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
 		},
 		failFast: true
 		)

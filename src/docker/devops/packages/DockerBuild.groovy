@@ -28,14 +28,13 @@ def buildDockerImages(String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_
 /************************************************************
 ***** Function to Push Docker Images to DockerHub       *****
 ************************************************************/
-def pushDockerImages(String DOCKER_USER)
+def pushDockerImages(String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG)
 {
    try {
       wrap([$class: 'AnsiColorBuildWrapper']) {
         println "\u001B[32mINFO => Pushing Images to DockerHub, please wait..."
 	   withCredentials([string(credentialsId: 'Docker-Pass', variable: 'DockerHubPass')]) {
-           sh "docker login -u ${DOCKER_USER} -p ${DockerHubPass}"
-	   sh "docker push ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG}"
+           sh "docker login -u ${DOCKER_USER} -p ${DockerHubPass}" && "docker push ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG}"
          }
       }
    }
