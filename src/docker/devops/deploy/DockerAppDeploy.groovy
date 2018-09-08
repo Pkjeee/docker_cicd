@@ -19,7 +19,7 @@ def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTA
 	for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
         def DockerRm = "docker rm -f ${CONTAINER_NAME}"
  	     sshagent(['SSH-KEY-102']) {
-		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm}"
+		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm} | exit"
 	 }
        }
      }
