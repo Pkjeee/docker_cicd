@@ -79,14 +79,15 @@ def call(body)
 	stage ('\u2784 Deployment Tasks') {
           parallel (
                 "\u278A UnDeploy Container" : {
-	        def Deploy = new DockerAppDeploy()
+	        def Rm = new DockerAppDeploy()
                 while (NEXT_STAGE != "UnDeploy_Container") {
                 continue
                 }
-		Deploy.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
+		Rm.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
                 NEXT_STAGE='container_Deployment'
                 },
                 "\u278B Container Deployement" : {
+		def Deploy = new DockerAppDeploy()
                 while (NEXT_STAGE != "container_Deployment") {
                 continue
                 }
