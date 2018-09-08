@@ -36,7 +36,7 @@ def UnDeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTA
 /****************************************************************************
 ******  	Function to Deploye NEW Containers & Start            *******
 ****************************************************************************/
-def DeployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG, String CONTAINER_NAME)
+def deployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG, String CONTAINER_NAME)
 {
    try {
       wrap([$class: 'AnsiColorBuildWrapper']) {

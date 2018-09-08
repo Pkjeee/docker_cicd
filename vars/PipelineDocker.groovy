@@ -83,15 +83,14 @@ def call(body)
                 while (NEXT_STAGE != "UnDeployContainer") {
                 continue
                 }
-                Dkr.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
-                NEXT_STAGE='DeployContainer'
+		Dkr.UnDeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
+                NEXT_STAGE='containerDeployment'
                 },
-                "\u278B Container Deployment" : {
-                while (NEXT_STAGE != "DeployContainer") {
+                "\u278B Container Deployement" : {
+                while (NEXT_STAGE != "containerDeployment") {
                 continue
                 }
-                Dkr.DeployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
-		NEXT_STAGE='none'
+		Dkr.deployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_TAG}","${config.DOCKER_USER}")
                 },
                 failFast: true
                 )
