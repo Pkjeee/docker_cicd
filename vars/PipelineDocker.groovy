@@ -55,13 +55,25 @@ def call(body)
 		s.SonarAnalysis("${config.SONAR_PROPERTY}")
 		NEXT_STAGE="dockerImageBuild"
 		}
-	stage ('\u2783 DockerBuild Images') {
+	stage ('\u2783 Docker Tasks') {
+          parallel (
+		"\u2780 Docker Build" : {
                 while (NEXT_STAGE != "dockerImageBuild") {
                 continue
                 }
                 def D = new DockerBuild()
                 D.buildDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}")
-                }
+                NEXT_STAGE='pushDcokerImage'
+                },
+		"\u2461 Docker Push2Hub" : {
+             	while (NEXT_STAGE != 'pushDcokerImage') {
+               	continue
+             	}
+		D.pushDockerImages("${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}"."${DOCKER_PASSWORD}")
+		},
+		failFast: true
+		)
+	      }
 	}
        	catch (Exception caughtError) {
           wrap([$class: 'AnsiColorBuildWrapper']) {
