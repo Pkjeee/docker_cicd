@@ -13,7 +13,7 @@ def buildDockerImages(String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_
 {
    try {
       wrap([$class: 'AnsiColorBuildWrapper']) {
-        println "\u001B[32mINFO => Building Docker Images, please wait..."
+        println "\u001B[32mINFO => Building Docker Images ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG}, please wait..."
 	sh "docker build -t ${DOCKER_USER}/${DOCKER_APP_NAME}:${DOCKER_TAG} ."
       }
    }
