@@ -54,8 +54,10 @@ def call(body)
 		while (NEXT_STAGE != "code_analysis") {
                 continue
 		}
+		if ( "${config.SONAR_ANALYSIS}" == "No" ) {
 	        def s = new MavenSonarAnalysis()
 		s.SonarAnalysis("${config.SONAR_PROPERTY}")
+		}
 		NEXT_STAGE="dockerImageBuild"
 		}
 	stage ('\u2783 Docker Tasks') {
