@@ -38,7 +38,7 @@ def removeContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTAIN
 ******  	Function to Deploy NEW Containers & Start            *******
 ****************************************************************************/
 
-def deployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG, String CONTAINER_NAME)
+def deployContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTAINER_NAME, String DOCKER_USER, String DOCKER_APP_NAME, String DOCKER_TAG)
 {
    try {
       wrap([$class: 'AnsiColorBuildWrapper']) {
