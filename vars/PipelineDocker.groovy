@@ -83,7 +83,9 @@ def call(body)
                 while (NEXT_STAGE != "Remove_Container") {
                 continue
                 }
-		dKr.removeContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}")
+		if ( "${config.SKIP_REMOVE_CONTAINER}" == "No" ) {
+		dKr.removeContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}") 
+		}
                 NEXT_STAGE='deploy_container'
                 },
                 "\u278B Container Deployement" : {
