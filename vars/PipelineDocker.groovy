@@ -43,13 +43,25 @@ def call(body)
            	g.Checkout("${config.GIT_URL}","${BRANCH}","${config.GIT_CREDENTIALS}")
            	NEXT_STAGE="maven_build"
            	}
-	stage ('\u2781 Maven Build') {
+	stage ('\u2781 Maven Tasks') {
+	  parallel (
+		"\u278A Maven Build" : {
 	        while (NEXT_STAGE != "maven_build") {
                 continue
                 }
 	        m.MavenBuild("${config.MAVEN_HOME}","${config.MAVEN_GOAL}")
-		NEXT_STAGE="code_analysis"
-	   	}
+		NEXT_STAGE='maven_reports'
+	   	},
+		"\u278B Reports Run" : {
+		while (NEXT_STAGE != "maven_reports") {
+		continue 
+		}
+		m.MavenReportRun("${config.MAVEN_HOME}","${config.MAVEN_REPORT_GOAL}")
+		},
+		failFasr: true
+		)
+	      }
+		NEXT_STAGE='code_analysis'
 	stage ('\u2782 Sonar Analysis') {
 		while (NEXT_STAGE != "code_analysis") {
                 continue
