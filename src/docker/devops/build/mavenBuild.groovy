@@ -26,22 +26,3 @@ def MavenBuild(String MAVEN_HOME, String MAVEN_GOAL)
     }
   }
 }
-/******************************************
-**** Function to generate Reports     ****
-******************************************/
-def MavenReportRun(String MAVEN_HOME, String MAVEN_REPORT_GOAL)
-{
-  try {
-    wrap([$class: 'AnsiColorBuildWrapper']) {
-      println "\u001B[32mINFO => Building Maven Reports, please wait..."
-      sh "$MAVEN_HOME/bin/mvn $MAVEN_REPORT_GOAL"
-    }
-  }
-   catch (Exception caughtException) {
-      wrap([$class: 'AnsiColorBuildWrapper']) {
-         println "\u001B[41mERROR => failed to install Maven Reports..."
-         currentBuild.result = 'FAILED'
-         throw caughtException
-    }
-  }
-}
