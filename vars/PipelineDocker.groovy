@@ -57,11 +57,11 @@ def call(body)
 		continue 
 		}
 		m.MavenReportRun("${config.MAVEN_HOME}","${config.MAVEN_REPORT_GOAL}")
+		NEXT_STAGE='code_analysis'
 		},
 		failFast: true
 		)
 	      }
-		NEXT_STAGE='code_analysis'
 	stage ('\u2782 Sonar Analysis') {
 		while (NEXT_STAGE != "code_analysis") {
                 continue
