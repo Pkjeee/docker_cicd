@@ -58,7 +58,7 @@ def call(body)
 		}
 		m.MavenReportRun("${config.MAVEN_HOME}","${config.MAVEN_REPORT_GOAL}")
 		},
-		failFasr: true
+		failFast: true
 		)
 	      }
 		NEXT_STAGE='code_analysis'
