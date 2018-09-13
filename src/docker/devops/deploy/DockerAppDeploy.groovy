@@ -18,9 +18,9 @@ def removeContainer(String DEPLOYMENT_SERVERS, String LINUX_USER, String CONTAIN
         println "\u001B[32mINFO => Docker Removal Process is running at ${DEPLOYMENT_SERVERS}, please wait..."
 	for (LINUX_SERVER in DEPLOYMENT_SERVERS.split(',')) {
         def DockerRm = "docker rm -f ${CONTAINER_NAME}"
-	def DeleteImage = 'docker images -q | xargs docker rmi'
+//	def DeleteImage = 'docker images -q | xargs docker rmi'
  	     sshagent(['SSH-KEY-102']) {
-		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm} ${DeleteImage}"
+		sh "ssh -o StrictHostKeyChecking=no ${LINUX_USER}@${LINUX_SERVER} ${DockerRm}"
 	 }
        }
      }
