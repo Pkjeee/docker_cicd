@@ -94,7 +94,7 @@ def call(body)
                 while (NEXT_STAGE != "deploy_container") {
                 continue
                 }
-		dKr.deployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.DOCKER_TAG}","${config.API_PORT"}")
+		dKr.deployContainer("${config.DEPLOYMENT_SERVERS}","${config.LINUX_USER}","${config.CONTAINER_NAME}","${config.DOCKER_USER}","${config.DOCKER_APP_NAME}","${config.API_PORT}","${config.DOCKER_TAG}")
                 },
                 failFast: true
                 )
